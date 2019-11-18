@@ -523,27 +523,31 @@ class HostConfig(dict):
             self['Runtime'] = runtime
 
         if gpus:
+            print("In if GPUS")
             if version_lt(version, '1.25'):
                 raise host_config_version_error('runtime', '1.25')
             elif version_lt(version, '1.40'):
                 # set up the nvidia runtime
                 self['Runtime'] = "nvidia"
                 # inject into environment
-
             else:
+                print("in else")
                 # 3 possible formats
                 # all -> all
                 # int -> count
                 # device="a,...,z" -> deviceIDs
                 if gpus == "all":
+                    print("in gpus == alll")
                     self['DeviceRequests'] = [ {'Driver': '', 'Count': -1, 'DeviceIDs': None, 'Capabilities': [ ['gpu'] ], 'Options': {} } ]
                 else:
                     # check if we have a count
                     try:
                         count = int(gpus)
+                        print("in iint(gpus)")
                         self['DeviceRequests'] = [ {'Driver': '', 'Count': count, 'DeviceIDs': None, 'Capabilities': [ ['gpu'] ], 'Options': {} } ]
                     except ValueError:
                         if gpus.startswith("device="):
+                            print("in valueerror with device=")
                             device_ids = [x.strip() for x in gpus.replace("device=", "").split(",")]
                             self['DeviceRequests'] = [ {'Driver': '', 'Count': 0, 'DeviceIDs': device_ids, 'Capabilities': [ ['gpu'] ], 'Options': {} } ]
                         else:
