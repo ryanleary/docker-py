@@ -522,6 +522,7 @@ class HostConfig(dict):
                 raise host_config_version_error('runtime', '1.25')
             self['Runtime'] = runtime
 
+        print("pre if in gpus")
         if gpus:
             print("In if GPUS")
             if version_lt(version, '1.25'):
