@@ -859,6 +859,7 @@ class ContainerCollection(Collection):
         kwargs['command'] = command
         kwargs['version'] = self.client.api._version
         create_kwargs = _create_container_args(kwargs)
+        print(create_kwargs)
         resp = self.client.api.create_container(**create_kwargs)
         return self.get(resp['Id'])
 
